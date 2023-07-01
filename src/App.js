@@ -1,46 +1,64 @@
 import logo from './logo.svg';
 import './App.css'; //import 하는 방법
+import { useState } from 'react';
 
 function App() {
 
-  let post = '변수를 출력하는 방법'; //대충 서버에서 가져온 값이라고 가정
-  // document.querySelector('h4').innerHTML = post; 원래 이런 식으로 사용해야 했음
+  let post = '강남 우동 맛집'; //let , var , const
+
+  //리액트에서는 자료를 잠깐 저장하고 싶을 때 위와 같은 자료형을 쓸 수도 있지만, react에서는 state라는 자료형이 따로 있다.
+  let [a,b]=useState('남자 코트 추천'); //[a,b]는 js의 Destructuring 문법->코드 맨 아래 참고
+  //a는 state에 보관했던 자료가 나오고, b는 state 변경도와주는 함수
+  //state 사용법
+  //1. import {useState}
+  //2. useState(보관할 자료)
+  //3. let[작명,작명]
+
+  let [logo, setLogo] = useState('ReactBlog');
   return (
     <div className="App">
-      <div className="black-nav"> 
-      {/* 여기는 js이기 때문에 class명을 지정할 때 class="black-nav"가 아니라
-          className=""로 작성해야 한다. 나중에 class 선언할 때와 겹치기 때문이다.
-      */}
-      <div>이것은 html이 아니라 JSX 언어이다. </div>
-      <div>.js파일에서 쓰는 html의 대용품이다.</div>
-      <div>원래 리액트에서는 React.createElement('div',null,'HelloWorld')와 같이 코드를 짜야 한다.</div>
+      <div className='black-nav'>
+        <h4>{logo}</h4>
+      </div>
+      <div className="list">
+        <h4>{a}</h4>
+        <p>2월 17일 발행</p>
       </div>
 
-      <h4>{post}</h4> 
-      {/* 변수에 있던 데이터를 받고 싶으면 이와 같이 입력하면 됨 */}
-      <h4 id={post}>데이터 바인딩 하는 방법</h4>
-      {/* 위와 같이 변수명을 요소로 이용할 수도 있음 이런 것을 >>데이터 바인딩<< 이라고 함*/}
-
-      <h4 style={ {color : 'blue', fontSize:'16px'} }>style 넣을 땐 style={'{{'}스타일명:'값'{'}}'}</h4>
-      {/* font-size가 아니라 fontSize로 입력해야 함. */}
-      {/* <h4 style="color:red;"> html이 아니기 때문에 이런식으로 작성하면 안됨</h4> */}
-      
-      <hr></hr>
-      <h1 style={{color : 'red'}}>
-        총 정리
-      </h1>
-      <h3>
-        JSX 문법
-        <br></br>
-        1. class 넣을 땐 className<br></br>
-        2. 변수 꽂을 땐 {'{'}변수명{'}'} <br></br>
-        3. style 넣을 땐 style={'{{'}이름:'값'{'}}'}
-      </h3>
-      
+      <div> 
+        <h1 style={{color:'red'}}> 총 정리 </h1>
+        <h2>
+          자주 변경될 것 같은 html 부분은 state로 만들어 놓기
+        </h2>
+      </div>
     </div>
 
     
   );
+  //return()안에는 병렬로 태그 2개 이상 기입 금지
+
 }
 
+/////////////////////////////////////////////////////////
+
+//[참고] Destructuring 문법
+
+//let num = [1,2];
+// let a = num[0];
+// let b = num[1];
+//위와 같이 인덱스를 이용하여 변수에 값을 저장할 수도 있지만,
+//let [a,b] =[1,2];
+//위와 같이도 저장할 수 있다. 결과는 같다. 
+
+/////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////
+
+// let이 아니라 state 변수를 사용하는 이유?
+
+// 코드가 돌아가고 있는 중에 변수값이 변경되면 let같은 경우는 바뀐 값으로 바로 반영되지 않는다는 문제가 생긴다.
+//이러한 문제를 state가 해결해줌. 따로 처리를 해주지 않아도 >>자동 재렌더링<<을 통해 html을 처리해주기 때문이다.
+//즉, state는 변동시 자동으로 html에 반영되게 만들고 싶을 때 사용해라.
+
+/////////////////////////////////////////////////////////
 export default App;
