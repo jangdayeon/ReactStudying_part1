@@ -10,6 +10,7 @@ function App() {
   let [a,제목변경] = useState(['남자코트 추천','강남 우동맛집','파이썬독학']);
   let [따봉, 따봉변경] = useState([0,0,0]);
   let [modal, setModal] = useState('닫힘'); 
+  let [title,setTitle] = useState(0);
   
 
   function 함수(){
@@ -29,7 +30,10 @@ function App() {
       {a.map(function(글데이터,i){
         return(
           <div className="list" key={i}>
-        <h4 onClick={()=>{ 
+        <h4 onClick={()=>{
+          ////////////////////////////////////////////글제목을 누를 때마다 title이 재설정 되도록!
+          setTitle(i); 
+          ////////////////////////////////////////////
           modal =='열림'? setModal('닫힘'):setModal('열림');
           }}>{글데이터}  <span onClick={()=>{ let copy = [...따봉]; copy[i]+=1; 따봉변경(copy)}}>❤️</span> {따봉[i]} </h4> 
         {/* <h4>{a[i]} </h4> */}
@@ -39,21 +43,19 @@ function App() {
       })}
       {
         /////////////////////////////////////////////
-        modal == '열림'? <Modal 글제목={a} color={'skyblue'} 글제목변경={제목변경}/> : '아님'
+        modal == '열림'? <Modal 글제목={a} color={'skyblue'} title={title}/> : '아님'
         /////////////////////////////////////////////
       }
 
       <div>
         <h1 style={{color:'red'}}>총 정리</h1>
-        부모 컨퍼넌트(app)는 자식 컨퍼넌트(modal)에게 데이터(state)를 보낼 수 있음. 그 방법이 prop임! <br></br>
-        반대와 동일레벨 안됨 (패륜전송 불륜전송 안됨 ㅋㅋㅋㅋ) <br></br>
+        modal의 제목이 글제목을 누를 때마다 변경된 값이 출력되도록 하는 방법을 다루었다.<br></br>
         <h3>
-          부모에서 자식에게 state 전송하는 방법<br></br>
-          1. {'<자식컴포넌트 작명={state이름}>'}<br></br>
-          2. props 파라미터 등록 후 props.작명 사용
+          useState를 이용해서 새로운 변수를 만들고, 그 변수의 값이 글제목을 누를 때마다 변경하게 만듦.<br></br>
+          그리고 그 변경된 값을 자식함수로 넘겨주면 된다.<br></br>
         </h3>
         <h4>
-          
+          (중요) state 만드는 곳은 state 사용하는 컴포넌트들 중 최상위 컴포넌트
         </h4>
         <hr style={{width:'100px', height:'5px',backgroundColor:'black'}}></hr>
         
@@ -68,7 +70,7 @@ function App() {
 function Modal(props){
   return ( 
     <div className="modal" style={{background : props.color}}>
-        <h4>{props.글제목[0]}</h4>
+        <h4>{props.글제목[props.title]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
         <button onClick={()=>{props.글제목변경(['여자코트 추천','강남 우동맛집','파이썬독학'])}}>글수정</button>
